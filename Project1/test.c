@@ -1,4 +1,4 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
@@ -10,14 +10,14 @@
 #define FALL_DELAY 500
 #define RENDER_DELAY 100
 
-// Áä½L¹ï·Óªí
+// éµç›¤å°ç…§è¡¨
 #define LEFT_KEY 0x25
 #define RIGHT_KEY 0x27 
 #define ROTATE_KEY 0x26 
 #define DOWN_KEY 0x28 
 #define FALL_KEY 0x20 
 
-// §PÂ_«öÁä¬O§_¦³³Q«ö¤Uªº¨ç¦¡
+// åˆ¤æ–·æŒ‰éµæ˜¯å¦æœ‰è¢«æŒ‰ä¸‹çš„å‡½å¼
 #define LEFT_FUNC() GetAsyncKeyState(LEFT_KEY) & 0x8000
 #define RIGHT_FUNC() GetAsyncKeyState(RIGHT_KEY) & 0x8000
 #define ROTATE_FUNC() GetAsyncKeyState(ROTATE_KEY) & 0x8000
@@ -225,9 +225,9 @@ void printCanvas(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
         printf("\033[0m|\n");
     }
 
-    // ¿é¥XNext:
+    // è¼¸å‡ºNext:
     printf("\033[%d;%dHNext:", 3, CANVAS_WIDTH * 2 + 5);
-    // ¿é¥X¦³¬Æ»ò¤è¶ô
+    // è¼¸å‡ºæœ‰ç”šéº¼æ–¹å¡Š
     for (int i = 1; i <= 3; i++)
     {
         Shape shapeData = shapes[state->queue[i]];
@@ -255,19 +255,19 @@ bool move(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], int originalX, int original
     Shape shapeData = shapes[shapeId];
     int size = shapeData.size;
 
-    // §PÂ_¤è¶ô¦³¨S¦³¤£²Å¦X±ø¥ó
+    // åˆ¤æ–·æ–¹å¡Šæœ‰æ²’æœ‰ä¸ç¬¦åˆæ¢ä»¶
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
         {
             if (shapeData.rotates[newRotate][i][j])
             {
-                // §PÂ_¦³¨S¦³¥X¥hÃä¬É
+                // åˆ¤æ–·æœ‰æ²’æœ‰å‡ºå»é‚Šç•Œ
                 if (newX + j < 0 || newX + j >= CANVAS_WIDTH || newY + i < 0 || newY + i >= CANVAS_HEIGHT)
                 {
                     return false;
                 }
-                // §PÂ_¦³¨S¦³¸I¨ì§Oªº¤è¶ô
+                // åˆ¤æ–·æœ‰æ²’æœ‰ç¢°åˆ°åˆ¥çš„æ–¹å¡Š
                 if (!canvas[newY + i][newX + j].current && canvas[newY + i][newX + j].shape != EMPTY)
                 {
                     return false;
@@ -276,7 +276,7 @@ bool move(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], int originalX, int original
         }
     }
 
-    // ²¾°£¤è¶ôÂÂªº¦ì¸m
+    // ç§»é™¤æ–¹å¡ŠèˆŠçš„ä½ç½®
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
@@ -288,7 +288,7 @@ bool move(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], int originalX, int original
         }
     }
 
-    // ²¾°Ê¤è¶ô¦Ü·sªº¦ì¸m
+    // ç§»å‹•æ–¹å¡Šè‡³æ–°çš„ä½ç½®
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
@@ -400,11 +400,11 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
             state->queue[2] = state->queue[3];
             state->queue[3] = rand() % 7;
 
-            //µ²§ô¿é¥X
+            //çµæŸè¼¸å‡º
             if (!move(canvas, state->x, state->y, state->rotate, state->x, state->y, state->rotate, state->queue[0]))
             {
                 printf("\033[%d;%dH\x1b[41m GAME OVER \x1b[0m\033[%d;%dH", CANVAS_HEIGHT - 3, CANVAS_WIDTH * 2 + 5, CANVAS_HEIGHT + 5, 0);
-                exit(0);//µ²§ô¹CÀ¸
+                exit(0);//çµæŸéŠæˆ²
             }
         }
     }
